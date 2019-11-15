@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Sample Login</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+</head>
+
+<body class="container">
+    <!-- /<script src="./public/controller.js"></script> -->
+    <div class="container"><hr>
+        <h1>Adding Student Account</h1><hr><br><br>
+        <div class="form-group">
+            <label for="name">Name:</label>
+            <input type="text" class="form-control" placeholder="Enter name" id="name">
+            <label for="username">Username:</label>
+            <input type="text" class="form-control" id="username" placeholder="Enter username">
+            <label for="email">Email:</label>
+            <input type="email" class="form-control" placeholder="Enter email" id="email">
+            <label for="batch">Batch:</label>
+            <input type="text" class="form-control" id="batch" placeholder="Batch">
+            <label for="username">Password:</label>
+            <input type="password" class="form-control" id="password" placeholder="Enter password">
+        </div>
+        <button id="add" class="btn btn-default">Submit</button>
+    </div>
+    <div class="container">
+        <table class="table table-striped table-resposive">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Batch</th>
+                    <th>Username</th>
+                    <th>Email</th>
+                    <th>Password</th>
+                    <th>Date Created</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+
+</body>
+<script>
+    $(document).ready(() => {
+        var name = $('#name')
+        var username = $('#username')
+        var email = $('#email')
+        var batch = $('#batch')
+        var password = $('#password')
+
+        console.log("Hello")
+        $("#add").click(function () {
+            // if ($('input') != '') {
+            //     swal({
+            //         icon: 'warning',
+            //         title: "Please check input"
+            //     })
+            // } else {
+                $.ajax({
+                    url: '/student/create',
+                    type: 'POST',
+                    dataType: 'JSON',
+                    data: { name: name.val(), batch: batch.val(), username: username.val(), email: email.val(), password: password.val() },
+                    error: function (err) {
+                        swal({
+                            title: "Failed to add details!",
+                            icon: "error"
+                        })
+                    },
+                    success: function (result) {
+                        swal({
+                            text: "Successfully added student!",
+                            icon: "success"
+                        })
+                        location.reload()
+                    }
+                })
+            // }
+            $('input').val('');
+        })
+
+        $.ajax({
+            url: 'student/retrieve/all',
+            type: 'GET',
+            error: function (err) {
+                alert(err)
+            },
+            success: function (result) {
+                result.data.forEach(student => {
+                    addRow(student._id, student.name, student.batch, student.username, student.email, student.password, student.timestamp.toString())
+                    console.log(student.timestamp.toString())
+                });
+            }
+        })
+
+        function addRow(id, name, batch, username, email, password, timestamp) {
+            $('tbody').append("<tr id = '" + id + "'><td>" + name + "</td><td>" + batch + "</td><td>" + username + "</td><td>" + email + "</td><td>" + password + "</td><td>" + timestamp + "</td></tr>")
+        }
+    })
+</script>
+
+</html>
