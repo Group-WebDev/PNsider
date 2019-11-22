@@ -64,7 +64,7 @@ export default {
     methods: {
         async save() {
             if (this.email !== null && this.password !== null) {
-                this.$router.push('/')
+                this.$router.push('/Dashboard')
             }
         },
         resetForm() {

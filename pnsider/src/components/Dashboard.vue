@@ -1,9 +1,9 @@
 <template>
-<v-card>
+<v-container>
     <v-navigation-drawer
-      v-model="drawer"
-      :mini-variant.sync="mini"
+      absolute
       permanent
+      left
     >
       <v-list-item>
         <v-list-item-avatar>
@@ -11,13 +11,6 @@
         </v-list-item-avatar>
 
         <v-list-item-title>John Leider</v-list-item-title>
-
-        <v-btn
-          icon
-          @click.stop="mini = !mini"
-        >
-          <v-icon>mdi-chevron-left</v-icon>
-        </v-btn>
       </v-list-item>
 
       <v-divider></v-divider>
@@ -38,5 +31,20 @@
         </v-list-item>
       </v-list>
     </v-navigation-drawer>
-  </v-card>
+</v-container>
 </template>
+<script>
+  export default {
+    data () {
+      return {
+        drawer: true,
+        items: [
+          { title: 'Home', icon: 'mdi-home-city' },
+          { title: 'My Account', icon: 'mdi-account' },
+          { title: 'Users', icon: 'mdi-account-group-outline' },
+        ],
+        mini: true,
+      }
+    },
+  }
+</script>
