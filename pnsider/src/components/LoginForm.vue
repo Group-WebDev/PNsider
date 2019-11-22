@@ -7,14 +7,15 @@
         <v-form ref="user" @submit.prevent="submit">
             <v-container class="container">
                 <center>
-                    <h1>Login</h1></center>
+                    <h1>Login</h1>
+                </center>
                 <v-text-field v-model="user.username" :rules="rules.required" color="purple darken-2" label="Username"></v-text-field>
                 <v-text-field v-model="user.password" :append-icon="show1 ? 'visibility' : 'visibility_off'" :rules="[rules.required, rules.password]" :type="show1 ? 'text' : 'password'" name="input-10-1" label="Password" hint="At least 8 characters" counter @click:append="show1 = !show1"></v-text-field>
             </v-container>
             <v-card-actions>
                 <v-btn text @click="resetForm">Cancel</v-btn>
                 <v-spacer></v-spacer>
-                <v-btn :disabled="!formIsValid" text color="primary" type="submit" class="mr-4" @click="save">Login</v-btn>
+                <v-btn :disabled="!formIsValid" text color="primary" type="submit" class="mr-4" @click="login">Login</v-btn>
             </v-card-actions>
         </v-form>
     </v-container>
@@ -62,14 +63,20 @@ export default {
         },
     },
     methods: {
-        async save() {
-            if (this.email !== null && this.password !== null) {
-                this.$router.push('/Dashboard')
-            }
+        login: function () {
+            let username = this.user.username;
+            let password = this.user.password;
+            this.$store
+                .dispatch("login", {
+                    username,
+                    password
+                })
+                .then(() => this.$router.push("/"))
+                .catch();
         },
         resetForm() {
             this.user.username = '',
-            this.user.password = ''
+                this.user.password = ''
         },
         submit() {
             this.snackbar = true
@@ -81,9 +88,10 @@ export default {
 
 <style>
 .card {
-    margin-top: 5%; 
+    margin-top: 5%;
 }
-#image{
+
+#image {
     width: 40%;
     height: 40%;
 }

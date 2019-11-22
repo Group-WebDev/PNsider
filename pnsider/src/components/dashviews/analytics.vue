@@ -1,5 +1,5 @@
 <template>
-  <h1>Analytics</h1>
+  <h1>Analyticfdsafsdfdsfdsfdsfafsdfdss</h1>
 </template>
 
 <script>
