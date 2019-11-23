@@ -63,7 +63,12 @@ export default {
                 },
                 {
                     to: '/userList',
-                    title: 'Users',
+                    title: 'Users2021',
+                    icon: 'mdi-account-group-outline'
+                },
+                {
+                    to: '/userLists',
+                    title: 'Users2022',
                     icon: 'mdi-account-group-outline'
                 },
                 {

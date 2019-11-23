@@ -1,8 +1,6 @@
 <template>
   <v-app>
-    <v-content>
     <dashview/>
-    </v-content>
   </v-app>
 </template>
 

@@ -3,7 +3,8 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 import Home from "../views/Home.vue";
 import Analytics from '@/components/dashviews/Analytics'
-import UserList from '@/components/dashviews/UserList'
+import UserList from '@/components/dashviews/UserList(2021)'
+import UserList2 from '@/components/dashviews/UserList(2022)'
 
 Vue.use(VueRouter);
 
@@ -35,6 +36,11 @@ const router = new VueRouter({
       path: "/userList",
       name: "userlist",
       component: UserList
+    },
+    {
+      path: "/userLists",
+      name: "userlist2",
+      component: UserList2
     },
   ]
 }) 
