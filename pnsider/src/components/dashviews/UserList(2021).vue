@@ -1,30 +1,34 @@
 <template>
 <div>
-    <AddStudent />
+    <AddStudent /><br />
     <v-row no-gutters>
         <v-col v-for="columns in columnData" :key="columns.column" cols="sm">
-            <v-card class="pa-2" outlined tile>
+            <v-card class="pa-2" tile>
                 {{columns.column}}
             </v-card>
         </v-col>
     </v-row>
-    <v-row>
-        <v-col>
-            fdsfa
-        </v-col>
+    <v-row no-gutters>
+        <Students v-for="(student, index) in students" :student="student" :key="index" @deleteStudent="deleteStudent" @updateStudent="updateStudent">
+        </Students>
     </v-row>
 </div>
 </template>
 
 <script>
 import AddStudent from '@/components/AddStudent.vue'
+import Students from '@/components/Students.vue'
+import { getStudents }  from '@/store/axios'
 
 export default {
     components: {
-        AddStudent
+        AddStudent,
+        Students
+
     },
     data() {
         return {
+            students:[],
             columnData: [{
                     column: 'Full Name'
                 },
@@ -42,6 +46,24 @@ export default {
                 }
             ]
         }
+    },
+     methods: {
+        deleteStudent(id) {
+            let students = this.students.filter(student => student._id != id)
+            this.student = students
+        },
+        updateNote(student) {
+            this.deleteStudent(student._id);
+            this.createStudent(student);
+        },
+        createNote(student) {
+            this.students = [student, ...this.students];
+        },
+    },
+    mounted() {
+        getStudents()
+            .then(data => this.students = data.students)
+            .catch((err => alert(err)));
     }
 
 }
