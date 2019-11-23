@@ -19,7 +19,7 @@
 
                     <v-text-field v-model="email" :rules="emailRules" label="E-mail" required></v-text-field>
 
-                    <v-text-field :append-icon="show2 ? 'mdi-eye' : 'mdi-eye-off'" :rules="paswordRules" :type="show2 ? 'text' : 'password'" name="input-10-2" label="Visible" hint="At least 8 characters" class="input-group--focused" @click:append="show2 = !show2"></v-text-field>
+                    <v-text-field :append-icon="show2 ? 'mdi-eye' : 'mdi-eye-off'" :rules="paswordRules" :type="show2 ? 'text' : 'password'" name="input-10-2" label="Password" hint="At least 8 characters" class="input-group--focused" @click:append="show2 = !show2"></v-text-field>
 
                     <v-card-actions>
                         <v-spacer />
