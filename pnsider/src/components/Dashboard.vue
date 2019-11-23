@@ -1,12 +1,14 @@
 <template>
 <v-app light>
-    <v-navigation-drawer :clipped="clipped"  v-model="drawer" enable-resize-watcher app dark>
+    <v-navigation-drawer :clipped="clipped"  v-model="drawer" enable-resize-watcher app id="drawer">
         <v-list-item>
             <v-list-item-avatar>
-                <v-img src="https://randomuser.me/api/portraits/men/85.jpg"></v-img>
+                <v-avatar color="indigo">
+                 <v-icon dark>mdi-account-circle</v-icon>
+                </v-avatar>
             </v-list-item-avatar>
 
-            <v-list-item-title>John Leider</v-list-item-title>
+            <v-list-item-title>Admin</v-list-item-title>
         </v-list-item>
 
         <v-divider></v-divider>
@@ -23,7 +25,7 @@
             </v-list-item>
         </v-list>
     </v-navigation-drawer>
-    <v-app-bar color="deep-purple accent-4" app :clipped-left="clipped" dark>
+    <v-app-bar color="transparent" app :clipped-left="clipped" light>
         <v-app-bar-nav-icon  @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
 
         <v-toolbar-title>Page title</v-toolbar-title>
@@ -63,7 +65,12 @@ export default {
                 },
                 {
                     to: '/userList',
-                    title: 'Users',
+                    title: 'Users2021',
+                    icon: 'mdi-account-group-outline'
+                },
+                {
+                    to: '/userLists',
+                    title: 'Users2022',
                     icon: 'mdi-account-group-outline'
                 },
                 {
@@ -77,4 +84,11 @@ export default {
     },
 }
 </script>
+<style>
+#drawer{
+    box-shadow: 1px 1px 2px whitesmoke, 0 0 25px cornflowerblue, 0 0 5px black;
+    background-color: transparent;
+}
+</style>
+
 
