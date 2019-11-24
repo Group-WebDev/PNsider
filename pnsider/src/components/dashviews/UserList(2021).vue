@@ -1,5 +1,5 @@
 <template>
-<v-data-table :headers="headers" :items="desserts" sort-by="calories" class="elevation-1">
+<v-data-table :headers="headers" :items="students" sort-by="calories" class="elevation-1">
     <template v-slot:top>
         <v-toolbar flat color="white">
             <v-toolbar-title>Student 2021</v-toolbar-title>
@@ -87,23 +87,23 @@ export default {
             let students = this.students.filter(student => student._id != id)
             this.student = students
         },
-        updateNote(student) {
-            this.deleteStudent(student._id);
-            this.createStudent(student);
-        },
-        createNote(student) {
-            this.students = [student, ...this.students];
-        },
+        // updateNote(student) {
+        //     this.deleteStudent(student._id);
+        //     this.createStudent(student);
+        // },
+        // createNote(student) {
+        //     this.students = [student, ...this.students];
+        // },
         // editItem(item) {
         //     this.editedIndex = this.desserts.indexOf(item)
         //     this.editedItem = Object.assign({}, item)
         //     this.dialog = true
         // },
 
-        deleteItem(item) {
-            const index = this.desserts.indexOf(item)
-            confirm('Are you sure you want to delete this item?') && this.desserts.splice(index, 1)
-        },
+        // deleteItem(item) {
+        //     const index = this.desserts.indexOf(item)
+        //     confirm('Are you sure you want to delete this item?') && this.desserts.splice(index, 1)
+        // },
 
         // close() {
         //     this.dialog = false
@@ -123,7 +123,7 @@ export default {
     },
     mounted() {
         getStudents()
-            .then(data => this.students = data.students)
+            .then(data => this.students = data.data)
             .catch((err => alert(err)));
     }
 

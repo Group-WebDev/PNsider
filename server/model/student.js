@@ -1,43 +1,26 @@
-const mongoose = require('mongoose')
-// const validator = require('mongoose-unique-validator')
-const Schema = mongoose.Schema;
+const mongoose = require("mongoose");
 
-mongoose.connect('mongodb://127.0.0.1:27017/pnStudent', { useNewUrlParser: true, useCreateIndex: true, useUnifiedTopology: true });
-var db = mongoose.connection;
-db.on('error', console.error.bind(console, 'connection error:'));
-db.once('open', function () {
-    console.log("Connected To DB")
-});
+var Schema = new mongoose.Schema({
+    fullname: {type:String},
+    batch: {type:String},
+    username: {type:String,  unique:true},
+    email: {type: String},
+    password: {type: String}
+ });
 
-var studentSchema = new Schema({
-    name: {
-        type: String,
-        required: true
-    },
-    batch: {
-        type: String,
-        required: true
-    },
-    username: {
-        type: String,
-        required: true,
-        unique: true
-    },
-    email: {
-        type: String,
-        required: true
-    },
-    password: {
-        type: String,
-        required: true
-    },
-    timestamp: {
-        type: Date,
-        default: Date.now,
-        required: true
-    }
-})
+ Schema.statics.addStudent = async function (student){
+    var Student = new this(student);
+    var result =  await Student.save(student);
+    console.log(result);
+    return result;
+ }
+ 
+ Schema.statics.getLastStudent = async function() {
+    return await this.findOne().sort({_id:-1}).limit(1);
+ }
+ 
+ Schema.statics.getByUsername = async function(username) {
+    return await this.findOne({"username" : username});
+ }
 
-//studentSchema.plugin(validator, { message: 'Item must be unique!' });
-
-module.exports = mongoose.model('Student', studentSchema);
+ module.exports = mongoose.model('Student', Schema);
