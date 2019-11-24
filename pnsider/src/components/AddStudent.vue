@@ -9,22 +9,22 @@
                 <v-card-title>
                     <span class="headline">Student Profile</span>
                 </v-card-title>
-                <v-form ref="form" v-model="valid" lazy-validation>
+                <v-form ref="form" v-model="valid" @submit.prevent="create">
 
                     <v-text-field v-model="fullname" :rules="requiredRules" label="Full Name" required></v-text-field>
-                    
+
                     <v-text-field v-model="batch" :rules="requiredRules" label="Batch" required></v-text-field>
 
                     <v-text-field v-model="username" :rules="requiredRules" label="Username" required></v-text-field>
 
                     <v-text-field v-model="email" :rules="emailRules" label="E-mail" required></v-text-field>
 
-                    <v-text-field :append-icon="show2 ? 'mdi-eye' : 'mdi-eye-off'" :rules="paswordRules" :type="show2 ? 'text' : 'password'" name="input-10-2" label="Password" hint="At least 8 characters" class="input-group--focused" @click:append="show2 = !show2"></v-text-field>
+                    <v-text-field v-model="password" :append-icon="show2 ? 'mdi-eye' : 'mdi-eye-off'" :rules="paswordRules" :type="show2 ? 'text' : 'password'" name="input-10-2" label="Password" hint="At least 8 characters" class="input-group--focused" @click:append="show2 = !show2"></v-text-field>
 
                     <v-card-actions>
                         <v-spacer />
                         <v-btn color="blue darken-1" text @click="dialog = false">Close</v-btn>
-                        <v-btn :disabled="!valid" color="success" class="mr-4" @click="validate">
+                        <v-btn :disabled="!valid" color="success" class="mr-4" @click="create">
                             Add Account
                         </v-btn>
                     </v-card-actions>
@@ -38,29 +38,31 @@
 <script>
 import {
     createStudent
-} from '@/store/axios'
+} from '@/store/axios.js'
 export default {
-    data: () => ({
-        dialog: false,
-        show2: false,
-        valid: true,
-        fullname: '',
-        batch:'',
-        username:'',
-        password: '',
-        paswordRules: [
-            v => !!v || 'Password is required',
-            v => /^([a-zA-Z0-9@*#]{8,15})$/.test(v) || 'Password matching expression. Match all alphanumeric character and predefined wild characters. Password must consists of at least 8 characters and not more than 15 characters.',
-        ],
-        email: '',
-        emailRules: [
-            v => !!v || 'E-mail is required',
-            v => /.+@.+\..+/.test(v) || 'E-mail must be valid',
-        ],
-        requiredRules:[
-            v=> !!v || 'This is Required Field'
-        ],
-    }),
+    data() {
+        return {
+            dialog: false,
+            show2: false,
+            valid: true,
+            fullname: '',
+            batch: '',
+            username: '',
+            password: '',
+            paswordRules: [
+                v => !!v || 'Password is required',
+                v => /^([a-zA-Z0-9@*#]{8,15})$/.test(v) || 'Password matching expression. Match all alphanumeric character and predefined wild characters. Password must consists of at least 8 characters and not more than 15 characters.',
+            ],
+            email: '',
+            emailRules: [
+                v => !!v || 'E-mail is required',
+                v => /.+@.+\..+/.test(v) || 'E-mail must be valid',
+            ],
+            requiredRules: [
+                v => !!v || 'This is Required Field'
+            ],
+        }
+    },
 
     methods: {
         validate() {
@@ -68,16 +70,17 @@ export default {
                 this.snackbar = true
             }
         },
-        create() {
+        create: function () {
             let data = {
-                fullname:this.fullname,
-                batch:this.batch,
-                username:this.username,
+                fullname: this.fullname,
+                batch: this.batch,
+                username: this.username,
                 email: this.email,
                 password: this.password
             }
             createStudent(data)
                 .then(data => {
+
                     this.$emit('createStudent', data.data);
                     this.email = this.password = this.username = this.fullname = this.batch = '';
                     this.dialog = false;
