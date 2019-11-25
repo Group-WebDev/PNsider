@@ -1,6 +1,7 @@
 <template>
   <v-app>
     <dashview/>
+    <router-view/>
   </v-app>
 </template>
 

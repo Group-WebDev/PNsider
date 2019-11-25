@@ -73,6 +73,21 @@ app.get('/', function (req, res) {
     })
 })
 
+app.post('/student/update/:id', (req, res) => {
+  let options = { new: true };
+    addStudent.findByIdAndUpdate(req.params.id, req.body.data , options, (err, student) => {
+      if (err) return res.status(404).send({message: err.message});
+      return res.send({ message: 'note updated!', student });
+    });
+  });
+
+app.post('/student/delete/:id', (req,res) => {
+  addStudent.findByIdAndRemove(req.params.id, (err) => {
+    if (err) return res.status(404).send({message: err.message});
+    return res.send({ message: 'note deleted!' });
+  });
+});
+
 http.listen(port, function () {
     console.log('listening on *:' + port);
 });

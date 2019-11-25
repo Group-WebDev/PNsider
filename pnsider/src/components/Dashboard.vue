@@ -1,5 +1,5 @@
 <template>
-<v-app light>
+<v-app light v-show="login">
     <v-navigation-drawer :clipped="clipped"  v-model="drawer" enable-resize-watcher app id="drawer">
         <v-list-item>
             <v-list-item-avatar>
@@ -32,7 +32,7 @@
 
         <v-spacer></v-spacer>
 
-        <v-btn icon>
+        <v-btn icon @click="logout">
             <v-icon>mdi-logout</v-icon>
         </v-btn>
 
@@ -52,6 +52,7 @@
 export default {
     data() {
         return {
+            login: true,
             drawer: true,
             clipped: false,
             items: [{
@@ -74,7 +75,6 @@ export default {
                     icon: 'mdi-account-group-outline'
                 },
                 {
-                    to: '/login',
                     title: 'Logout',
                     icon: 'mdi-logout'
                 },
@@ -82,6 +82,12 @@ export default {
             mini: true,
         }
     },
+    methods:{
+        logout(){
+            this.login = false
+            this.$router.push('/login') 
+        }
+    }
 }
 </script>
 <style>
