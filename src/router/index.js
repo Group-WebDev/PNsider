@@ -1,7 +1,8 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 import Landing from "../components/Landing.vue";
-import Form from "../views/Form.vue";
+import UserList1 from '@/components/UserList(2021).vue'
+import UserList2 from '@/components/UserList(2022).vue'
 
 Vue.use(VueRouter);
 
@@ -12,9 +13,14 @@ const routes = [
     component: Landing
   },
   {
-    path: "/Form",
-    name: "form",
-    component: Form
+    path: "/userlist1",
+    name: "user",
+    component: UserList1
+  } ,
+  {
+    path: "/userlist2",
+    name: "users",
+    component: UserList2
   }
 ];
 

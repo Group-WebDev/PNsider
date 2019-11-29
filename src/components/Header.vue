@@ -8,7 +8,7 @@
       <v-spacer></v-spacer>
 
       <v-btn icon>
-        <v-icon>mdi-magnify</v-icon>
+        <v-icon>mdi-logout</v-icon>
       </v-btn>
     </v-app-bar>
 
@@ -26,10 +26,13 @@
           <hr>
 
           <v-list-item>
-            <router-link to="/Home">HOME</router-link>
+            <router-link to="/Home">Analytics</router-link>
           </v-list-item>
-           <v-list-item>
-            <router-link to="/Form">FORMS</router-link>
+          <v-list-item>
+            <router-link to="/userlist1">2021</router-link>
+          </v-list-item>
+          <v-list-item>
+            <router-link to="/userlist2">2022</router-link>
           </v-list-item>
         </v-list-item-group>
       </v-list>
