@@ -19,7 +19,7 @@ app.get('/',(req,res) =>{
     console.log('hello world')
 });
 
-app.use('/user',userRoute)
+app.use('/student',userRoute)
 
 app.use('/staff', staffRotue)
 

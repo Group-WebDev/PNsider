@@ -1,7 +1,8 @@
 const express = require('express');
 const router = express.Router();
-const Student = require('../model/Student');
-const Post = require('../model/Post')
+const Student = require(__dirname+'/../model/Student');
+const Post = require(__dirname+'/../model/Post');
+const mongoose = require('mongoose');
 
 router.post('/login',(req, res) =>{
     Student.findOne({username: req.body.username, password: req.body.password})
@@ -20,9 +21,15 @@ router.post('/login',(req, res) =>{
 });
 
 router.post('/answer', (req, res) =>{
+    console.log(req.body)
+    console.log(req.body[0])
+    let studentID = mongoose.Types.ObjectId('5dce4e9f4ed64817c8a05e43')
     let data = {
-        studentID: '5dce4e9f4ed64817c8a05e43',
-        answers: req.body
+        studentID: studentID,
+        categories:{
+            academicLife:req.body.academicLife,
+            centerLife: req.body.centerLife
+        }
     };
     let post = new Post(data);
     post.save()

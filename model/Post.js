@@ -1,18 +1,17 @@
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
-
 var PostSchema = new Schema({
     studentID: {
-        type: String,
+        type: Object,
         required: true
     },
-    answers:{
-        Q1:{
-            type: String
+    categories:{
+        academicLife: {
+            type:Object
         },
-        Q2:{
-            type: String
+        centerLife: {
+            type: Object 
         }
     },
     timestamp:{
