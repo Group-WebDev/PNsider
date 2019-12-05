@@ -4,7 +4,7 @@ const Student = require('../model/Student')
 const Staff = require('../model/Staff')
 const account = require('../modules/authenticate')
 
-router.post('/login', (req, res) => {
+router.post('/', (req, res) => {
     async function login() {
         try {
             let filter = { username: req.body.username }

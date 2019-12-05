@@ -5,6 +5,7 @@ const cors = require('cors');
 const port = process.env.PORT ||8081;
 const userRoute = require('./routes/student.route');
 const staffRotue = require('./routes/staff.rotue');
+const loginRoute = require('./routes/login')
 const DB = require('./connectDB')
 
 
@@ -23,6 +24,7 @@ app.get('/',(req,res) =>{
 app.use('/student',userRoute)
 
 app.use('/staff', staffRotue)
+app.use('/login',loginRoute )
 
 app.listen(port, (err) => {
     console.log(`listening to ${port}`)
