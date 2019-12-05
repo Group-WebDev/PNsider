@@ -16,6 +16,10 @@ var StudentSchema = new Schema({
         type:String,
         required: true
     },
+    batch:{
+        type:Number,
+        required: true
+    },
     dateCreated:{
         type: Date,
         default: Date.now(),

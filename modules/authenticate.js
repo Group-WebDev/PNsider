@@ -1,23 +1,20 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const key = process.env.secret 
+const config = require('../config/config');
 
-function validate(password, hashPassword){
+function validate(data,password){
     return new Promise((resolve, reject) =>{
-        if(bcrypt.compareSync(password,hashPassword)){
-            console.log(key)
+        console.log(data, 'inside comp')
+        if(bcrypt.compareSync(password,data.password)){
             var token = jwt.sign({
-                _id: fuser.data._id,
-                username: fuser.data.username,
-                type: fuser.data.type,
-            },key, {
+                _id: data._id,
+                username: data.username
+            },config.secret_key, {
                 expiresIn: 86400 
             });
-            console.log(token)
             resolve({
                 auth: true,
                 token: token,
-                type: fuser.data.type,
                 message: 'login successful'
               });
         }else{

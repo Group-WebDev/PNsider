@@ -6,27 +6,6 @@ const mongoose = require('mongoose');
 const account = require('../modules/authenticate')
 const bcrypt = require('bcryptjs')
 
-router.post('/login',(req, res) =>{
-    Student.findOne({username: req.body.username})
-    .then(doc =>{
-      if(doc){
-         // console.log(bcrypt.compareSync(req.body.password,doc.password))
-        account.validate(req.body.password,doc.password)
-        .then(data =>{ 
-            console.log(data)
-            res.json(data)
-        })
-        .catch(err =>{
-            res.status(500).send(err)
-        });
-      }else{
-          res.status(404).json({message: 'Account not found'})
-      }
-    })
-    .catch(err => {
-        res.status(400).json({err: err.message})
-    })
-});
 
 router.post('/answer', (req, res) =>{
     let studentID = mongoose.Types.ObjectId('5dce4e9f4ed64817c8a05e43')
