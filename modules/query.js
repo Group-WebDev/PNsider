@@ -1,19 +1,19 @@
 const Post = require('../model/Post')
-function analytics(category,number) {
+function analytics(category, number) {
     return new Promise((resolve, reject) => {
+        //kulang og match para sa date, batch
         Post.aggregate([
             {
                 $group: {
                     _id: `$categories.${category}.Q${number}`,
-                    answers: {
-                        $sum: 1
-                    }
-                }},
-                {
+                    answers: { $sum: 1 }
+                }
+            },
+            {
                 $project: {
                     _id: 1,
                     description: { $ifNull: ["Q" + number, "Unspecified"] },
-                    answers:1
+                    answers: 1
                 }
             }
         ])

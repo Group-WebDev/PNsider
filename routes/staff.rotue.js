@@ -35,6 +35,7 @@ router.get('/twoWeeksAnswer', (req, res) => {
 
 router.post('/summary', (req, res) => {
     async function queryShit() {
+        //kulang filter para sa match
         try {
             var items = []
             for (let i = 1; i <= 10; i++) {
