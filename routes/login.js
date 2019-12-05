@@ -6,24 +6,28 @@ const account = require('../modules/authenticate')
 
 router.post('/login', (req, res) => {
     async function login() {
-        let filter = { username: req.body.username }
-        if (req.body.username == "admin") {
-            userinfo = await find.findUser(Staff, filter)
-        } else {
-            userinfo = await find.findUser(Student, filter)
-        }
+        try {
+            let filter = { username: req.body.username }
+            if (req.body.username == "admin") {
+                userinfo = await find.findUser(Staff, filter)
+            } else {
+                userinfo = await find.findUser(Student, filter)
+            }
 
-        if (userinfo != "not found") {
-            account.validate(userinfo, req.body.password)
-                .then(data => {
-                    console.log(data)
-                    res.json(data)
-                })
-                .catch(err => {
-                    res.status(500).send(err)
-                });
-        }else{
-            res.status(404).send('not found')
+            if (userinfo != "not found") {
+                account.validate(userinfo, req.body.password)
+                    .then(data => {
+                        console.log(data)
+                        res.json(data)
+                    })
+                    .catch(err => {
+                        res.status(500).send(err)
+                    });
+            } else {
+                res.status(404).send('not found')
+            }
+        } catch (err) {
+            res.status(500).send(err)
         }
     }
     login()
