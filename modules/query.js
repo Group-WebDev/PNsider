@@ -26,11 +26,20 @@ function analytics(category, number) {
     })
 }
 
-
-function add(data) {
-    var items = [];
-    items.push(data)
-    return items;
+function previousAnswers(filter){
+    return new Promise((resolve, reject) =>{
+         Post.find(filter)
+         .then(doc =>{
+             if(doc){
+                 resolve(doc)
+             }else{
+                resolve("no answers found")
+             }
+         })  
+         .catch(err => {
+             reject(err)
+         }) 
+    })
 }
 
 
