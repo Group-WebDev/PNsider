@@ -1,4 +1,5 @@
 const mongoose = require('mongoose')
+const bcrypt = require('bcryptjs')
 const Schema = mongoose.Schema
 
 
@@ -21,6 +22,20 @@ var StudentSchema = new Schema({
         required: true
     }
   
+});
+
+
+StudentSchema.pre("save", async function (next) {
+    if (!this.isModified("password")) {
+        return next();
+    }
+    try {
+        const hash = await bcrypt.hashSync(this.password, 10);
+        this.password = hash;
+        next();
+    } catch (err) {
+        next(err);
+    }
 });
 
 module.exports = mongoose.model('Student', StudentSchema)

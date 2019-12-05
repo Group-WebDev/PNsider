@@ -16,6 +16,7 @@ app.use(cors());
 DB.connect()
 
 app.get('/',(req,res) =>{
+    console.log(req.body)
     console.log('hello world')
 });
 
