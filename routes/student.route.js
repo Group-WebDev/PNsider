@@ -26,19 +26,16 @@ router.post('/answer', (req, res) =>{
 });
 
 router.get('/previuosAnswers', (req, res) => {
-   // const date = new Date();
-    //.log(new Date(date));
-    //let rangeDate = date.setHours(-336, 00, 00);
-    //console.log(new Date(rangeDate))
-    Post.find({ date: { $gt: rangeDate, $lt: date } })
-        .then(doc => {
-            res.status(200).json({ number: doc.length })
-            console.log(doc)
-        })
-        .catch(err => {
-            res.status(500).json({ message: err.message })
-        })
+     let studentID;
+    Post.find({studentID: studentID})
+    .then(doc =>{
+        res.json(doc)
+    })
+    .catch(err =>{
+        res.status(500).send(err)
+    })
 })
+
 
 
 module.exports = router

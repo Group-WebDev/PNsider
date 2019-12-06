@@ -3,9 +3,12 @@
 const express = require('express');
 const router = express.Router();
 const Student = require('../model/Student');
+const Staff = require('../model/admin')
 const Post = require('../model/Post')
-const mongoose = require('mongoose')
-const query = require('../modules/query')
+const studentController = require('../modules/Student')
+const query = require('../modules/analytics')
+
+
 
 router.post('/create', (req, res) => {
     let student = new Student(req.body);
@@ -18,159 +21,123 @@ router.post('/create', (req, res) => {
         })
 });
 
-router.get('/twoWeeksAnswer', (req, res) => {
-    const date = new Date();
-    console.log(new Date(date));
-    let rangeDate = date.setHours(-336, 00, 00);
-    console.log(new Date(rangeDate))
-    Post.find({ date: { $gt: rangeDate, $lt: date } })
-        .then(doc => {
-            res.status(200).json({ number: doc.length })
-            console.log(doc)
-        })
-        .catch(err => {
-            res.status(500).json({ message: err.message })
-        })
+router.get('/students', (req, res) =>{
+    let filter = {deletedAt:null}
+    studentController.retrieveAllUser(filter)
+    .then(data =>{
+        res.json(data)
+    })
+    .catch(err =>{
+        res.status(400).send(err)
+    })
+        
+
 })
 
-router.post('/summary', (req, res) => {
-    async function queryShit() {
-        //kulang filter para sa match
-        try {
-            var items = []
-            for (let i = 1; i <= 10; i++) {
-                if (i < 6) {
-                    let data = await query.analytics('centerLife', i)
-                    items.push(data)
-                } else {
-                    let data = await query.analytics('academicLife', i)
-                    items.push(data)
-                }
-            }
-            console.log(items)
-            res.json(items)
-        } catch (err) {
-            res.send(err)
-        }
+router.post('/delete/:id', (req, res) =>{
+    let options = {
+      deletedAt: new Date()
     }
+    Student.findByIdAndUpdate(req.params.id, options, {new: true})
+    .then(doc =>{
+        res.json(doc)
+    })
+    .catch(err =>{
+        res.status(400).send(err)
+    })
+})
 
-    queryShit();
-    //console.log(query.analytics(1))
-    // var items = [];
-    // for (let i = 1; i <= 5; i++) {
-    //     //console.log(i)
-    //     Post.aggregate([
-    //         {
-    //             $group: {
-    //                 _id: "$categories.centerLife.Q"+i ,
-    //                 answers: {
-    //                     $sum: 1
-    //                 }
-    //             }
-    //         }
-    //     ], (err, doc) => {
-    //         if(doc) {
-    //             //console.log(doc)
-    //             items.push(doc[0])
-    //         }
-    //         if(err) {
-    //             res.send(err.message)
-    //         }
-    //         console.log(items,'items')
-    //     })
-    //     res.json(items)
-    // }
+//NOTE:::::: new user info to be placed in the database
+router.post('/update/:id', (req, res) =>{
+    let options = {
+      editedAt: new Date(),
+    }
+    Student.findByIdAndUpdate(req.params.id, options,{new: true})
+    .then(doc =>{
+        res.json(doc)
+    })
+    .catch(err =>{
+        res.status(400).send(err)
+    })
+})
 
 
-    // .then(doc => {
-    //     var temp = []
-    //     // console.log(doc)
-    //     if(doc.length == 2) {
-    //         temp.push(doc[0])
-    //         temp.push(doc[1])
-    //         //res.json(items)
-    //     } else {
-    //         temp.push(doc[0])
-    //        // res.json(items)
-    //     }
-
-    // })
-    // .catch(err => {
-    //     console.log(err)
-    //     res.send(err)
-    // })
-    // items.push(temp)
-    // Post.aggregate( [
-    //     { $match : {  'categories.academicLife.Q1' : "good"} },
-    //     { $group: { _id: "$categories.academicLife.Q1", goodcount: { $sum: 1 } } }
-    //     ] )
-    //     .then(doc =>{
-    //         console.log(doc)
-    //         res.end()
-    //     })
-    //     .catch(err =>{
-    //         console.log(err)
-    //         res.send(err)
-    //     })
-    //     .finally(
-    //         res.end()
-    // )
-    // Post.aggregate([
-    //     { $match: { '_id': "5de0cb5d3d15e42a3843795e" }},
-    //     {
-    //                 "$group": { _id: "$categories.academicLife", count: { $sum: 1 } }
-    //     },
-    //     {
-    //         $project: {
-    //         _id: 1,
-    //         description: { $ifNull: [ "Q", "Unspecified" ] },
-    //         count:1
-    //         }
-    //     }
-    // //    {
-    // //     $match: {
-    // //         "timestamp": {$lte:'2019-11-29'}
-    // //     }
-    // //    },
-    // //     {
-    // //         "$group": { _id: "$categories.academicLife.Q"+i, count: { $sum: 1 } }
-    // //     },
-    // //     {
-    // //         $project: {
-    // //            _id: 1,
-    // //            description: { $ifNull: [ "Q"+i, "Unspecified" ] },
-    // //            count:1
-    // //         }
-    // //      }
-    // ])
-    //     .then(doc => {
-    //         console.log(doc)
-    //         res.end()
-    //     })
-    //     .catch(err => {
-    //         console.log(err)
-    //         res.send(err)
-    //     })
-    //     .finally(
-    //         res.end()
-    //     )
+router.get('/report/summary/:number/students',(req, res) =>{
+  async function getListStudentsInfo(){
+      try{
+        let filter = { questionNumber : 1, value :"bad" }
+        let categories = 'categories.academicLife.Q'+1
+        let data = {categories:'bad'}
+        let user = await  query.getStudents(data);
+        console.log(user)
+        res.send(user)
+      }
+      catch(err){
+        res.status(400).send(err)
+      }
+  }
+  getListStudentsInfo();
 
 
 })
 
 
-router.post('/test', (req, res) => {
-    Post.countDocuments({ timestamp: '2019-11-15' })
-        .then(count => {
-            console.log(count)
-            res.json({ data: count })
-            //and do one super neat trick
+router.post('/report/summary/:number', async (req, res) => {
+    let number = req.params.number
+    let length = await query.getLength();
+    if(req.params.number > 5){
+        query.analytics('centerLife', number)
+        .then(data =>{
+         res.json({data:data, length:length})
         })
-        .catch(err => {
-            res.status(500).send(err)
-            //handle possible errors
+        .catch(err =>{
+            res.send(err)
         })
+        
+    }else{
+        query.analytics('academicLife', number)
+        .then(data =>{
+            res.json({data:data, length:length})
+        })
+        .catch(err =>{
+            res.send(err)
+        })
+    }
+   
+
+
 })
+
+//after update password is not hashed anymore
+//all fields must have value otherwise it will become null
+
+
+
+// router.get('/twoWeeksAnswer', (req, res) => {
+//     const date = new Date();
+//     console.log(new Date(date));
+//     let rangeDate = date.setHours(-336, 00, 00);
+//     console.log(new Date(rangeDate))
+//     Post.find({ date: { $gt: new Date(Date.now() + 12096e5), $lt: date } })
+//         .then(doc => {
+//             res.status(200).json({ number: doc.length })
+//             console.log(doc)
+//         })
+//         .catch(err => {
+//             res.status(500).json({ message: err.message })
+//         })
+// })
+
+// router.post('/createadmin',(req, res) =>{
+//     let student = new Staff(req.body);
+//     student.save()
+//         .then(() => {
+//             res.status(200).json({ message: 'successfull' })
+//         })
+//         .catch((err) => {
+//             res.status(400).json({ err: err.message })
+//         })
+// })
 
 
 module.exports = router;

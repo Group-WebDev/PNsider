@@ -12,7 +12,15 @@ var StudentSchema = new Schema({
         type: String,
         required: true
     },
-    name:{
+    firstname:{
+        type:String,
+        required: true
+    },
+    lastname:{
+        type:String,
+        required: true
+    },
+    gender:{
         type:String,
         required: true
     },
@@ -24,10 +32,19 @@ var StudentSchema = new Schema({
         type: Date,
         default: Date.now(),
         required: true
+    },
+    deletedAt:{
+        type: Date,
+        default: null,
+        required: false
+    },
+    editedAt:{
+        type: Date,
+        default: null,
+        required: false
     }
   
 });
-
 
 StudentSchema.pre("save", async function (next) {
     if (!this.isModified("password")) {

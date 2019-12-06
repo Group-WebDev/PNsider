@@ -4,7 +4,6 @@ const config = require('../config/config');
 
 function validate(data,password){
     return new Promise((resolve, reject) =>{
-        console.log(data, 'inside comp')
         if(bcrypt.compareSync(password,data.password)){
             var token = jwt.sign({
                 _id: data._id,

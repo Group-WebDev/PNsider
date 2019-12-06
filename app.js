@@ -23,7 +23,7 @@ app.get('/',(req,res) =>{
 
 app.use('/student',userRoute)
 
-app.use('/staff', staffRotue)
+app.use('/admin', staffRotue)
 app.use('/login',loginRoute )
 
 app.listen(port, (err) => {
