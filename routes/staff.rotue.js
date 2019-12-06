@@ -10,7 +10,7 @@ const query = require('../modules/analytics')
 
 
 
-router.post('/create', (req, res) => {
+router.post('/student/create', (req, res) => {
     let student = new Student(req.body);
     student.save()
         .then(() => {
@@ -34,7 +34,7 @@ router.get('/students', (req, res) =>{
 
 })
 
-router.post('/delete/:id', (req, res) =>{
+router.post('/student/delete/:id', (req, res) =>{
     let options = {
       deletedAt: new Date()
     }
@@ -48,7 +48,7 @@ router.post('/delete/:id', (req, res) =>{
 })
 
 //NOTE:::::: new user info to be placed in the database
-router.post('/update/:id', (req, res) =>{
+router.post('/student/update/:id', (req, res) =>{
     let options = {
       editedAt: new Date(),
     }
@@ -63,12 +63,22 @@ router.post('/update/:id', (req, res) =>{
 
 
 router.get('/report/summary/:number/students',(req, res) =>{
+
+
+    // Post.find({_id:'5dea4ff05f71070f74be1409',"categories.academicLife.Q6":"good"} )
+    //     .then( data =>{
+    //         if(data){
+    //             res.send(data)
+    //         }
+    //     })
+    //     .catch(err =>{
+    //         console.log(err)
+    //         res.send(err)
+    //     })
   async function getListStudentsInfo(){
       try{
-        let filter = { questionNumber : 1, value :"bad" }
-        let categories = 'categories.academicLife.Q'+1
-        let data = {categories:'bad'}
-        let user = await  query.getStudents(data);
+        let filter = { questionNumber : 6, value :"good" }
+        let user = await  query.getStudents(filter);
         console.log(user)
         res.send(user)
       }
@@ -86,7 +96,7 @@ router.post('/report/summary/:number', async (req, res) => {
     let number = req.params.number
     let length = await query.getLength();
     if(req.params.number > 5){
-        query.analytics('centerLife', number)
+        query.analytics('academicLife', number)
         .then(data =>{
          res.json({data:data, length:length})
         })
@@ -95,7 +105,7 @@ router.post('/report/summary/:number', async (req, res) => {
         })
         
     }else{
-        query.analytics('academicLife', number)
+        query.analytics('centerLife', number)
         .then(data =>{
             res.json({data:data, length:length})
         })

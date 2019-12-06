@@ -47,20 +47,28 @@ function getLength(){
 
 function getStudents(filter, projection){
     return new Promise((resolve, reject) =>{
-        let date = new Date();
-        console.log(test)
-        let stmnt = {test:"bad"}
-        Post.find(filter)
+        let data = {}
+        data[`categories.academicLife.Q${filter.questionNumber}`] = filter.value;
+        console.log(data)
+        Post.find({timestamp:{$lte:new Date()}})
         .then( data =>{
             if(data){
                 resolve(data)
             }
         })
         .catch(err =>{
+            console.log(err)
             reject(err)
         })
     })
 }
+
+
+// function getStudentsInfo(id){
+//     return new Promise((resolve, reject) =>{
+
+//     })
+// }
 
 
 module.exports = {

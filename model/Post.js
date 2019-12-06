@@ -4,16 +4,17 @@ const Schema = mongoose.Schema
 var PostSchema = new Schema({
     studentID: {
         type: Object,
-        required: true
+        required: true,
+        ref:'Studetn'
     },
-    categories:{
+    categories:[{
         academicLife: {
             type:Object
         },
         centerLife: {
             type: Object 
         }
-    },
+    }],
     timestamp:{
         type: Date,
         default: new Date()
